@@ -28,6 +28,28 @@ python -m playwright install chromium
 search-openclaw install
 search-openclaw doctor --fix || true
 
+if [ -n "${BRAVE_API_KEY:-}" ]; then
+  search-openclaw configure brave_api_key "$BRAVE_API_KEY"
+fi
+
+if [ -n "${TAVILY_API_KEY:-}" ]; then
+  search-openclaw configure tavily_api_key "$TAVILY_API_KEY"
+fi
+
+if [ -n "${ZHIHU_COOKIE:-}" ]; then
+  search-openclaw configure zhihu_cookie "$ZHIHU_COOKIE"
+fi
+
+if [ "${SMOKE_TEST:-0}" = "1" ]; then
+  QUERY="${SMOKE_QUERY:-OpenClaw 搜索配置建议}"
+  echo
+  echo "==> Running smoke test"
+  search-openclaw doctor
+  if ! search-openclaw search "$QUERY"; then
+    echo "warning: smoke search failed. Check your provider key and rerun with ./scripts/start.sh search \"$QUERY\""
+  fi
+fi
+
 cat <<'EOF'
 
 Install complete.

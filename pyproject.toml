@@ -43,7 +43,7 @@ dev = [
 ]
 
 [project.scripts]
-search-openclaw = "search_openclaw.cli:main"
+search-openclaw = "search_openclaw.cli:run_main"
 
 [build-system]
 requires = ["hatchling"]

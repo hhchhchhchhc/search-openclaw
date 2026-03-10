@@ -39,6 +39,12 @@ cd search-openclaw
 ./scripts/install.sh
 ```
 
+### One-Line Setup
+
+```bash
+git clone https://github.com/hanchihuang/search-openclaw.git && cd search-openclaw && BRAVE_API_KEY="<YOUR_KEY>" SMOKE_TEST=1 ./scripts/install.sh
+```
+
 ### Start In One Command
 
 ```bash
@@ -131,6 +137,20 @@ cd search-openclaw
 ./scripts/install.sh
 ```
 
+## 一行完成安装
+
+如果你已经有 `Brave API Key`，可以直接一行跑完安装、配置和冒烟测试：
+
+```bash
+git clone https://github.com/hanchihuang/search-openclaw.git && cd search-openclaw && BRAVE_API_KEY="<YOUR_KEY>" SMOKE_TEST=1 ./scripts/install.sh
+```
+
+如果你还想把知乎 Cookie 一起写进去，也可以：
+
+```bash
+git clone https://github.com/hanchihuang/search-openclaw.git && cd search-openclaw && BRAVE_API_KEY="<YOUR_KEY>" ZHIHU_COOKIE="<YOUR_COOKIE>" SMOKE_TEST=1 ./scripts/install.sh
+```
+
 这个脚本会自动完成：
 
 - 创建 `.venv`
@@ -147,6 +167,13 @@ cd search-openclaw
 ./scripts/start.sh doctor
 ./scripts/start.sh search "OpenClaw 搜索配置建议"
 ./scripts/start.sh scrape-social "AI Agent" --platform both
+```
+
+如果你只想复制已经验证过的命令，优先用这两条：
+
+```bash
+./scripts/start.sh scrape-social "AI Agent" --platform x --max-items 200 --max-scrolls 80
+./scripts/start.sh scrape-social "AI Agent" --platform zhihu --max-items 220 --max-scrolls 160 --no-new-stop 24 --page-delay-ms 1300 --stage1-only
 ```
 
 ## 现在能做什么
