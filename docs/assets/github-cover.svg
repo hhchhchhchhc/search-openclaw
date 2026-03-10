@@ -1,0 +1,42 @@
+<svg width="1280" height="640" viewBox="0 0 1280 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="640" fill="#F6EFE4"/>
+  <circle cx="1110" cy="110" r="190" fill="#D85F35" fill-opacity="0.14"/>
+  <circle cx="170" cy="560" r="220" fill="#1F5C55" fill-opacity="0.12"/>
+  <rect x="70" y="72" width="1140" height="496" rx="36" fill="#FFFDF8" stroke="#E8DCC8"/>
+  <text x="110" y="190" fill="#1D232B" font-family="Arial, PingFang SC, sans-serif" font-size="68" font-weight="700">
+    Search OpenClaw
+  </text>
+  <text x="110" y="254" fill="#5E6875" font-family="Arial, PingFang SC, sans-serif" font-size="28">
+    Give OpenClaw real search power in minutes
+  </text>
+  <text x="110" y="332" fill="#1F5C55" font-family="Arial, PingFang SC, sans-serif" font-size="24" font-weight="700">
+    One-click install · Web Search · X.com · Zhihu · iFlow
+  </text>
+  <rect x="110" y="378" width="246" height="72" rx="18" fill="#1D232B"/>
+  <text x="144" y="423" fill="#FFFDF8" font-family="Arial, PingFang SC, sans-serif" font-size="24" font-weight="700">
+    ./scripts/install.sh
+  </text>
+  <rect x="382" y="378" width="228" height="72" rx="18" fill="#D85F35"/>
+  <text x="421" y="423" fill="#FFF8F4" font-family="Arial, PingFang SC, sans-serif" font-size="24" font-weight="700">
+    ./scripts/start.sh
+  </text>
+  <rect x="760" y="164" width="360" height="252" rx="28" fill="#FAF4EA" stroke="#E5D8C5"/>
+  <text x="798" y="224" fill="#1D232B" font-family="Arial, PingFang SC, sans-serif" font-size="24" font-weight="700">
+    What it ships with
+  </text>
+  <text x="798" y="272" fill="#4A5562" font-family="Arial, PingFang SC, sans-serif" font-size="22">
+    • doctor --fix
+  </text>
+  <text x="798" y="312" fill="#4A5562" font-family="Arial, PingFang SC, sans-serif" font-size="22">
+    • Brave / Tavily / Exa / iFlow
+  </text>
+  <text x="798" y="352" fill="#4A5562" font-family="Arial, PingFang SC, sans-serif" font-size="22">
+    • X keyword scraping
+  </text>
+  <text x="798" y="392" fill="#4A5562" font-family="Arial, PingFang SC, sans-serif" font-size="22">
+    • Zhihu keyword scraping
+  </text>
+  <text x="110" y="522" fill="#7D674E" font-family="Arial, PingFang SC, sans-serif" font-size="22">
+    Search infrastructure for OpenClaw and agent workflows
+  </text>
+</svg>

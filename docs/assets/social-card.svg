@@ -1,0 +1,31 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#1D232B"/>
+  <rect x="42" y="42" width="1116" height="546" rx="34" fill="url(#bg)"/>
+  <circle cx="1050" cy="160" r="150" fill="#FFD8B6" fill-opacity="0.22"/>
+  <circle cx="170" cy="500" r="170" fill="#8BC1B8" fill-opacity="0.18"/>
+  <text x="96" y="168" fill="#FFF8F1" font-family="Arial, PingFang SC, sans-serif" font-size="64" font-weight="700">
+    Search OpenClaw
+  </text>
+  <text x="96" y="228" fill="#FBE8D7" font-family="Arial, PingFang SC, sans-serif" font-size="30">
+    一键安装 OpenClaw 搜索层
+  </text>
+  <text x="96" y="278" fill="#FBE8D7" font-family="Arial, PingFang SC, sans-serif" font-size="30">
+    Web Search + X.com + Zhihu + iFlow
+  </text>
+  <rect x="96" y="344" width="284" height="76" rx="20" fill="#FFF8F1"/>
+  <text x="132" y="392" fill="#1D232B" font-family="Arial, PingFang SC, sans-serif" font-size="24" font-weight="700">
+    ./scripts/install.sh
+  </text>
+  <text x="96" y="480" fill="#FBE8D7" font-family="Arial, PingFang SC, sans-serif" font-size="26">
+    不是又一个 AI 壳子
+  </text>
+  <text x="96" y="522" fill="#FBE8D7" font-family="Arial, PingFang SC, sans-serif" font-size="26">
+    而是让 OpenClaw 真的会搜、会抓、会验证
+  </text>
+  <defs>
+    <linearGradient id="bg" x1="42" y1="42" x2="1158" y2="588" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D85F35"/>
+      <stop offset="1" stop-color="#1F5C55"/>
+    </linearGradient>
+  </defs>
+</svg>

@@ -3,6 +3,8 @@
 > Give OpenClaw real search power in minutes.  
 > One-click install, provider setup, X.com scraping, Zhihu scraping, and an agent-friendly search CLI.
 
+![Search OpenClaw Cover](./docs/assets/github-cover.svg)
+
 ![MIT License](https://img.shields.io/badge/license-MIT-green)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![OpenClaw](https://img.shields.io/badge/OpenClaw-search%20infra-orange)
@@ -248,6 +250,8 @@ docs/
 - [FAQ](./docs/faq.md)
 - [Contributing](./CONTRIBUTING.md)
 - [公众号文章 HTML 成稿](./docs/wechat-launch-article.html)
+- [GitHub About / Topics 文案](./docs/github-about.md)
+- [社交封面图](./docs/assets/social-card.svg)
 
 ## License
 
