@@ -1,0 +1,58 @@
+[project]
+name = "search-openclaw"
+version = "0.1.0"
+description = "Search-focused CLI scaffolding for OpenClaw: configure providers, run doctor checks, and install a search skill."
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [{name = "hhchhchhchhc"}]
+keywords = [
+    "openclaw",
+    "search",
+    "web-search",
+    "ai-agent",
+    "cli",
+    "brave-search",
+    "tavily",
+    "exa",
+    "perplexity",
+    "iflow",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    "pyyaml>=6.0",
+    "requests>=2.31",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+]
+
+[project.scripts]
+search-openclaw = "search_openclaw.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["search_openclaw"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"search_openclaw/skill" = "search_openclaw/skill"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
