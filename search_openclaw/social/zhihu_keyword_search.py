@@ -60,6 +60,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--no-new-stop", type=int, default=8)
     parser.add_argument("--page-delay-ms", type=int, default=1800)
     parser.add_argument("--detail-delay-ms", type=int, default=1200)
+    parser.add_argument("--detail-limit", type=int, default=0)
+    parser.add_argument("--stage1-only", action="store_true")
     return parser.parse_args()
 
 
@@ -441,12 +443,20 @@ def main() -> int:
             raise RuntimeError("没有抓到任何搜索结果，请检查 Cookie 是否有效")
         write_json(run_dir / "results_stage1.json", {"keyword": args.keyword, "search_url": search_url, "results": stage1_items})
         print(f"成功收集 {len(stage1_items)} 条搜索结果（目标: {args.max_items}条）")
+        if args.stage1_only:
+            page.close()
+            context.close()
+            browser.close()
+            print("Stage 1 only mode: 跳过第二阶段全文补全")
+            print(f"Stage 1 JSON: {run_dir / 'results_stage1.json'}")
+            return 0
         print("开始第二阶段：逐条补全知乎全文")
         hydrated: list[dict] = []
         failed: list[dict] = []
         detail_page = context.new_page()
-        total = len(stage1_items)
-        for index, item in enumerate(stage1_items, start=1):
+        target_items = stage1_items[: args.detail_limit] if args.detail_limit and args.detail_limit > 0 else stage1_items
+        total = len(target_items)
+        for index, item in enumerate(target_items, start=1):
             print(f"[DETAIL] {index}/{total} {item['url']}")
             try:
                 hydrated.append(extract_detail(detail_page, item, args.detail_delay_ms))

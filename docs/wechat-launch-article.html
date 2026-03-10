@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Search OpenClaw：把 OpenClaw 变成真的会搜的 Agent</title>
+  <style>
+    :root {
+      --bg: #f5efe4;
+      --paper: #fffdf8;
+      --ink: #1d232b;
+      --muted: #6d7782;
+      --accent: #d85f35;
+      --accent-2: #1f5c55;
+      --line: rgba(29, 35, 43, 0.12);
+      --shadow: 0 24px 60px rgba(57, 35, 17, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "PingFang SC", "Noto Serif SC", "Source Han Serif SC", serif;
+      background:
+        radial-gradient(circle at top left, rgba(216, 95, 53, 0.18), transparent 24%),
+        radial-gradient(circle at top right, rgba(31, 92, 85, 0.16), transparent 26%),
+        linear-gradient(180deg, #f8f1e6 0%, #f5efe4 100%);
+      color: var(--ink);
+      line-height: 1.9;
+    }
+
+    .wrap {
+      width: min(860px, calc(100vw - 32px));
+      margin: 32px auto 80px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 44px 34px 38px;
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      border-radius: 28px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.92), rgba(255,249,240,0.95)),
+        linear-gradient(135deg, rgba(216,95,53,0.18), rgba(31,92,85,0.1));
+      box-shadow: var(--shadow);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -60px -70px auto;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(216,95,53,0.18), transparent 68%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(31, 92, 85, 0.1);
+      color: var(--accent-2);
+      font-size: 13px;
+      letter-spacing: 0.06em;
+    }
+
+    h1 {
+      margin: 18px 0 12px;
+      font-size: clamp(32px, 5vw, 48px);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    .lead {
+      margin: 0;
+      font-size: 18px;
+      color: var(--muted);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .chip {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(29,35,43,0.08);
+      font-size: 14px;
+    }
+
+    .article {
+      margin-top: 24px;
+      padding: 36px 30px 42px;
+      border-radius: 28px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(29,35,43,0.06);
+    }
+
+    h2 {
+      margin: 30px 0 12px;
+      padding-left: 14px;
+      border-left: 4px solid var(--accent);
+      font-size: 26px;
+      line-height: 1.35;
+    }
+
+    p {
+      margin: 14px 0;
+      font-size: 17px;
+    }
+
+    .quote {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(216,95,53,0.08), rgba(31,92,85,0.08));
+      border: 1px solid rgba(216,95,53,0.14);
+      font-size: 20px;
+      line-height: 1.7;
+    }
+
+    .note {
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: #fff7ef;
+      border: 1px solid rgba(216,95,53,0.12);
+      color: #7b4b2c;
+    }
+
+    ul {
+      margin: 14px 0 18px 1.2em;
+      padding: 0;
+    }
+
+    li {
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
+    .code {
+      margin: 16px 0;
+      padding: 18px 20px;
+      border-radius: 18px;
+      overflow-x: auto;
+      background: #171c22;
+      color: #eef2f5;
+      font-family: "JetBrains Mono", "SFMono-Regular", monospace;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      margin: 22px 0;
+    }
+
+    .card {
+      padding: 20px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(248,243,236,0.92));
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #1f5c55, #17453f);
+      color: #f7fbfa;
+    }
+
+    .footer a {
+      color: #fff7cf;
+      text-decoration: none;
+    }
+
+    @media (max-width: 760px) {
+      .hero-grid,
+      .split {
+        grid-template-columns: 1fr;
+      }
+
+      .hero,
+      .article {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="eyebrow">OpenClaw 搜索层基建</div>
+      <h1>Search OpenClaw：把 OpenClaw 变成真的会搜的 Agent</h1>
+      <p class="lead">
+        不是再做一个 AI 壳子，而是把 OpenClaw 最容易被低估、但最影响落地效果的那一层补上：
+        Web Search、X.com、知乎、iFlow、多搜索源回退。
+      </p>
+      <div class="hero-grid">
+        <div class="chip">一键安装：`./scripts/install.sh`</div>
+        <div class="chip">一键启动：`./scripts/start.sh`</div>
+        <div class="chip">搜索 + 社媒抓取直接可跑</div>
+      </div>
+    </section>
+
+    <article class="article">
+      <h2>一、很多人以为 OpenClaw 不够聪明，其实是它不会搜</h2>
+      <p>
+        这段时间越来越多人开始用 OpenClaw。大家的期待都很一致：
+        “我给你一句话，你去搜、去看、去整理，最后把结果交给我。”
+      </p>
+      <p>
+        但真正开始上手之后，很快就会发现，问题并不在模型本身。很多时候，模型不是不会想，而是拿不到足够好的信息。
+      </p>
+      <div class="quote">
+        真正决定一个 Agent 能不能干活的，往往不是模型参数，而是它有没有一个稳定、低摩擦、可验证的搜索层。
+      </div>
+
+      <h2>二、我做的不是“又一个 AI 应用”，而是搜索层基建</h2>
+      <p>
+        Search OpenClaw 做的事情很克制：
+      </p>
+      <ul>
+        <li>让 OpenClaw 更容易接上真正可用的 Web Search</li>
+        <li>让 X.com 和知乎这种高价值信息源，不再停留在“理论上可抓”</li>
+        <li>把安装、启动、检查、抓取都收敛成能直接复制执行的命令</li>
+      </ul>
+
+      <div class="split">
+        <section class="card">
+          <h3>它解决的不是“能不能搜”</h3>
+          <p>而是“能不能今天就跑起来，明天还能稳定复用”。</p>
+        </section>
+        <section class="card">
+          <h3>它真正提供的价值</h3>
+          <p>不是功能堆砌，而是 Agent 搜索闭环：安装、配置、调用、诊断、抓取。</p>
+        </section>
+      </div>
+
+      <h2>三、这次我把入口压缩成了两步</h2>
+      <div class="code">git clone https://github.com/hanchihuang/search-openclaw.git
+cd search-openclaw
+./scripts/install.sh</div>
+      <p>
+        安装完成后，直接这样启动：
+      </p>
+      <div class="code">./scripts/start.sh doctor
+./scripts/start.sh search "OpenClaw 搜索配置建议"
+./scripts/start.sh scrape-social "AI Agent" --platform both</div>
+
+      <p class="note">
+        这一步很重要。很多开源项目其实不是功能不行，而是入口太散。用户打开仓库第一页，没有看到“我现在到底该执行什么”。这件事本身就会劝退一大批人。
+      </p>
+
+      <h2>四、Search OpenClaw 现在已经能做什么</h2>
+      <ul>
+        <li>支持 Brave、Tavily、Exa、Perplexity、GitHub、iFlow</li>
+        <li>支持 `doctor --fix` 自动安装 skill 和本机配置探测</li>
+        <li>支持一键抓取 `X.com` 关键词结果</li>
+        <li>支持一键抓取 `知乎` 关键词结果</li>
+        <li>支持复用当前机器上 OpenClaw 正在使用的 iFlow key</li>
+      </ul>
+
+      <h2>五、为什么我觉得这类项目很容易跑出来</h2>
+      <p>
+        因为这不是一个伪需求。
+      </p>
+      <p>
+        只要你认真用过一次 Agent 做研究、资讯整理、热点跟踪、竞品分析，你就会意识到：
+        没有搜索层，Agent 只是会续写；搜索层一旦补上，它才开始像一个执行代理。
+      </p>
+      <div class="quote">
+        AI 时代最容易被低估的机会，不是再包一层模型，而是把“普通人真正卡住的那一步”做成可复制的基础设施。
+      </div>
+
+      <h2>六、如果你也在用 OpenClaw，最值得先跑的命令</h2>
+      <div class="code">./scripts/start.sh doctor --fix
+./scripts/start.sh configure brave_api_key &lt;YOUR_KEY&gt;
+./scripts/start.sh search "latest AI agent news"
+./scripts/start.sh login-x
+./scripts/start.sh scrape-social "AI Agent" --platform x</div>
+
+      <h2>七、最后</h2>
+      <p>
+        Search OpenClaw 不是要把所有事情都包进来，而是想把最关键的那一层先铺好：
+        让 OpenClaw 更容易搜、搜得更稳、搜得更像一个真的 Agent。
+      </p>
+      <p>
+        如果你也在做 Agent、搜索基建、社媒抓取或者信息工作流，这个方向会比“又一个 AI wrapper”更值得投入。
+      </p>
+
+      <section class="footer">
+        <strong>项目地址</strong><br />
+        <a href="https://github.com/hanchihuang/search-openclaw">https://github.com/hanchihuang/search-openclaw</a>
+        <br /><br />
+        如果你觉得这个方向有价值，欢迎点个 Star。<br />
+        对一个还在快速迭代的基建类项目来说，每一个 Star 都是在证明：这不是一个人的痛点。
+      </section>
+    </article>
+  </div>
+</body>
+</html>
