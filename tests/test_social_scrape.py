@@ -10,11 +10,7 @@ def test_extract_run_dir():
 
 
 def test_scrape_social_x(monkeypatch, tmp_path):
-    repo = tmp_path / "x_search_aggregator"
-    repo.mkdir()
     config = Config(config_path=tmp_path / "config.yaml")
-    config.set("x_aggregator_repo_path", str(repo))
-    config.set("x_aggregator_python", "python3")
     config.set("x_auth_state_path", "/tmp/auth_state.json")
 
     def fake_run(cmd, **kwargs):
@@ -23,3 +19,4 @@ def test_scrape_social_x(monkeypatch, tmp_path):
     monkeypatch.setattr("subprocess.run", fake_run)
     result = scrape_social(config, "x", "AI Agent", headless=True)
     assert result["x"]["run_dir"] == "/tmp/run-x"
+    assert "search_openclaw.social.x_keyword_search" in result["x"]["command"]

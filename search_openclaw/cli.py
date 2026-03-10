@@ -72,7 +72,7 @@ def main() -> None:
     sub.add_parser("show-config", help="Show current masked config")
     uninstall_parser = sub.add_parser("uninstall", help="Remove skill files and local config")
     uninstall_parser.add_argument("--dry-run", action="store_true", help="Preview removals only")
-    login_x_parser = sub.add_parser("login-x", help="Open browser and save X login state via x_search_aggregator")
+    login_x_parser = sub.add_parser("login-x", help="Open browser and save X login state")
     login_x_parser.add_argument("--timeout", type=int, default=180, help="Seconds to wait for manual login")
     scrape_parser = sub.add_parser("scrape-social", help="One-command keyword scraping for X / Zhihu")
     scrape_parser.add_argument("keyword", help="Search keyword")
@@ -229,16 +229,10 @@ def _cmd_uninstall(args: argparse.Namespace) -> None:
 
 def _cmd_doctor_fix(config: Config) -> None:
     _install_skill(dry_run=False)
-    detected = config.detect_x_aggregator_settings()
-    if detected.get("repo_path") and not config.get("x_aggregator_repo_path"):
-        config.set("x_aggregator_repo_path", detected["repo_path"])
-        print(f"已检测到 x_search_aggregator: {detected['repo_path']}")
-    if detected.get("python_bin") and not config.get("x_aggregator_python"):
-        config.set("x_aggregator_python", detected["python_bin"])
-        print(f"已设置 x_aggregator_python: {detected['python_bin']}")
-    if detected.get("x_auth_state_path") and not config.get("x_auth_state_path"):
-        config.set("x_auth_state_path", detected["x_auth_state_path"])
-        print(f"已设置 X 登录态路径: {detected['x_auth_state_path']}")
+    default_state = str((Config.CONFIG_DIR / "social" / "auth_state_cookie.json").resolve())
+    if not config.get("x_auth_state_path"):
+        config.set("x_auth_state_path", default_state)
+        print(f"已设置 X 登录态路径: {default_state}")
 
     iflow = config.get_iflow_settings()
     if iflow:
@@ -248,6 +242,7 @@ def _cmd_doctor_fix(config: Config) -> None:
 
     if not config.get("zhihu_cookie"):
         print("知乎 Cookie 尚未配置；如需抓取知乎，请执行 search-openclaw configure zhihu_cookie <COOKIE>")
+    print("X / 知乎抓取现已使用 search-openclaw 内置副本，不再依赖 x_search_aggregator")
 
 
 def _cmd_login_x(args: argparse.Namespace) -> None:

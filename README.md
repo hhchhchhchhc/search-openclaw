@@ -20,7 +20,7 @@ It currently includes:
 - `doctor --fix` to install the skill and auto-detect local integrations
 - direct search commands
 - iFlow reuse from your local OpenClaw config
-- one-command wrappers around the local `x_search_aggregator` repo for X and Zhihu keyword scraping
+- built-in X and Zhihu keyword scraping workflows
 
 ### Quick Start
 
@@ -53,7 +53,7 @@ Search OpenClaw is built to make that layer explicit and usable.
 
 ### Social Search Wrappers
 
-If you already have the local repo [`x_search_aggregator`](https://github.com/hhchhchhchhc/x_search_aggregator), Search OpenClaw can wrap it directly:
+Search OpenClaw now ships with built-in X and Zhihu scraping commands:
 
 - `search-openclaw login-x`
 - `search-openclaw scrape-social "AI Agent" --platform x`
@@ -90,8 +90,8 @@ search-openclaw scrape-social "AI Agent" --platform both
 - `configure`：写入 Brave / Tavily / Exa / Perplexity / iFlow / GitHub 配置
 - `doctor`：检查当前搜索层是否就绪
 - `search`：直接调用已配置的搜索 provider
-- `doctor --fix`：自动安装 skill 并检测本机 OpenClaw / x_search_aggregator 配置
-- `login-x`：调用本地 `x_search_aggregator` 的登录脚本保存 X 登录态
+- `doctor --fix`：自动安装 skill 并初始化本机 OpenClaw / 社媒抓取默认配置
+- `login-x`：调用内置登录脚本保存 X 登录态
 - `scrape-social`：一键抓取 `x.com` / 知乎关键词结果
 - `version`：查看版本
 

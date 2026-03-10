@@ -1,9 +1,10 @@
-"""Wrappers around the local x_search_aggregator repository."""
+"""Built-in wrappers around vendored X / Zhihu scraping modules."""
 
 from __future__ import annotations
 
 import re
 import subprocess
+import sys
 from pathlib import Path
 
 from search_openclaw.config import Config
@@ -14,37 +15,26 @@ class SocialScrapeError(RuntimeError):
 
 
 def detect_repo(config: Config) -> Path:
-    repo_path = config.get("x_aggregator_repo_path")
-    if repo_path:
-        path = Path(str(repo_path)).expanduser().resolve()
-        if path.exists():
-            return path
-
-    detected = config.detect_x_aggregator_settings().get("repo_path")
-    if detected:
-        return Path(detected)
-    raise SocialScrapeError("未找到 x_search_aggregator 仓库，请先配置 x_aggregator_repo_path")
+    return Path(__file__).resolve().parents[1]
 
 
 def detect_python(config: Config, repo: Path) -> str:
     configured = config.get("x_aggregator_python")
     if configured:
         return str(configured)
-    detected = config.detect_x_aggregator_settings().get("python_bin")
-    if detected:
-        return str(detected)
-    return "python3"
+    return sys.executable or "python3"
 
 
 def run_x_login(config: Config, timeout: int = 180) -> str:
     repo = detect_repo(config)
     python_bin = detect_python(config, repo)
-    state_path = config.get("x_auth_state_path") or config.detect_x_aggregator_settings().get("x_auth_state_path")
+    state_path = config.get("x_auth_state_path")
     if not state_path:
-        state_path = str((repo / "auth_state_cookie.json").resolve())
+        state_path = str((Config.CONFIG_DIR / "social" / "auth_state_cookie.json").resolve())
+    Path(state_path).expanduser().resolve().parent.mkdir(parents=True, exist_ok=True)
 
     proc = subprocess.run(
-        [python_bin, "login_x.py", "--state", state_path, "--timeout", str(timeout)],
+        [python_bin, "-m", "search_openclaw.social.login_x", "--state", state_path, "--timeout", str(timeout)],
         cwd=repo,
         capture_output=True,
         encoding="utf-8",
@@ -69,10 +59,10 @@ def scrape_social(
     output: dict[str, dict] = {}
 
     if platform in {"x", "both"}:
-        x_state = config.get("x_auth_state_path") or config.detect_x_aggregator_settings().get("x_auth_state_path")
+        x_state = config.get("x_auth_state_path")
         if not x_state:
             raise SocialScrapeError("未找到 X 登录态文件，请先执行 search-openclaw login-x")
-        cmd = [python_bin, "search_keyword_500.py", "--keyword", keyword, "--state", str(x_state)]
+        cmd = [python_bin, "-m", "search_openclaw.social.x_keyword_search", "--keyword", keyword, "--state", str(x_state)]
         if headless:
             cmd.append("--headless")
         if out_dir:
@@ -83,7 +73,7 @@ def scrape_social(
         cookie = zhihu_cookie or config.get("zhihu_cookie")
         if not cookie:
             raise SocialScrapeError("未配置 zhihu_cookie；请先运行 search-openclaw configure zhihu_cookie <COOKIE>")
-        cmd = [python_bin, "zhihu_search_keyword_500.py", "--keyword", keyword, "--cookie", cookie]
+        cmd = [python_bin, "-m", "search_openclaw.social.zhihu_keyword_search", "--keyword", keyword, "--cookie", cookie]
         if headless:
             cmd.append("--headless")
         if out_dir:
